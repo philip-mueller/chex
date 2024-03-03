@@ -1,0 +1,4 @@
+plot_wandb: true
+plot_local: false
+plot_val_samples: 0
+plot_val_arguments: {}

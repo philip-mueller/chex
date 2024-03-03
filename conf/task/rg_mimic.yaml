@@ -1,0 +1,39 @@
+# TODO
+
+defaults:
+  - task@rg_mimic
+  - /dataset@rg_mimic.dataset: mimiccxr_reports
+  - /prompts@rg_mimic.pos_prompts: chexpert_pos
+  - /prompts@rg_mimic.neg_prompts: chexpert_neg
+  - /prompts@rg_mimic.pathology_prompts: chexpert_pos
+  - /prompts@rg_mimic.anatomy_prompts: cig_anat
+  - /dataset/anatomy_names@rg_mimic.anatomy_names: cig_rg
+  - /dataset/class_names@rg_mimic.pathology_names: chexpert_14
+
+rg_mimic:
+  task: report_generation
+
+  use_anatomy_prompts: true
+  use_pathology_prompts: true
+
+  ignore_negative_pathologies: false
+  ignore_negative_anat_regions: true
+  neg_prompt_mode: neg
+  cls_prompt_average: true
+  positive_threshold: 0.5
+
+  # always remove these synonyms
+  synonym_removal_thres: 0.95
+  # remove synonyms if max sentences is reached
+  synonyme_soft_removal_thres: 0.9
+
+  sentence_preference: weight
+
+  max_sentences: 10
+
+  skip_roi_pool_inference: true
+
+  sentence_generartion_kwargs: 
+    max_length: 128
+    do_sample: false
+ 

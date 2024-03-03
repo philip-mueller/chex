@@ -1,0 +1,19 @@
+defaults:
+  - /dataset@mimiccxr_reports_cig_multiboxclssent: DatasetConfig
+  - anatomy_names@mimiccxr_reports_cig_multiboxclssent.anatomy_names: cig_default
+  - anatomy_names@mimiccxr_reports_cig_multiboxclssent.multi_anatomy_names: cig_multi
+  - anatomy_multibox_mapping@mimiccxr_reports_cig_multiboxclssent.anatomy_multibox_mapping: cig_mapping
+  - class_names@mimiccxr_reports_cig_multiboxclssent.class_names: cig_all
+
+mimiccxr_reports_cig_multiboxclssent:
+  name: mimic_cxr-frontal-report-cig_anatboxes-cig_anatlabels-cig_anatphrases
+
+  pixel_mean: [0.505]
+  pixel_std: [0.248] 
+
+  has_sentences: true
+  has_anatomy_bboxes: true
+  has_anatomy_class_labels: true
+  has_anatomy_sentences: true
+
+  load_memmap: true

@@ -1,0 +1,17 @@
+defaults:
+  - task@rc_re_mscxr
+  - /dataset@rc_re_mscxr.dataset: mscxr_boxsent
+  - /prompts@rc_re_mscxr.pos_prompts: mscxr_pos
+  - /prompts@rc_re_mscxr.neg_prompts: mscxr_neg
+
+rc_re_mscxr:
+  task: box_explanation
+
+  classify_boxes: true
+  neg_prompt_mode: pos_centroid
+  normalize_classification: true
+
+  generate_sentences: true
+  sentence_generartion_kwargs: 
+    max_length: 128
+    do_sample: false

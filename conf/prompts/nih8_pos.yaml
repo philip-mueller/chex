@@ -1,0 +1,8 @@
+nih/Atelectasis: ["Atelectasis"]
+nih/Cardiomegaly: ["Cardiomegaly"]
+nih/Effusion: ["Effusion (pleural or other)"]
+nih/Infiltration: ["Infiltration"]
+nih/Mass: ["Mass"]
+nih/Nodule: ["Nodule"]
+nih/Pneumonia: ["Pneumonia"]
+nih/Pneumothorax: ["Pneumothorax"]

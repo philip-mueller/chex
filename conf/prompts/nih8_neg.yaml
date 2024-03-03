@@ -1,0 +1,8 @@
+nih/Atelectasis: ["No atelectasis"]
+nih/Cardiomegaly: ["No cardiomegaly"]
+nih/Effusion: ["No effusion (pleural or other)"]
+nih/Infiltration: ["No infiltration"]
+nih/Mass: ["No mass"]
+nih/Nodule: ["No nodule"]
+nih/Pneumonia: ["No pneumonia"]
+nih/Pneumothorax: ["No pneumothorax"]

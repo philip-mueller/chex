@@ -1,0 +1,74 @@
+# @package _global_
+defaults:
+  - /transform@transform
+  - /model@model: chex_stage1
+  - /dataset@train_dataset: 
+    - mimiccxr_reports_cig_multiboxclssent
+    - vindrcxr_boxes
+  - /task@val_tasks: 
+    - train_metrics
+    - od_nih8
+    - od_mscxr
+    - od_vindrcxr15
+  - /task@eval_tasks: 
+    - od_nih8
+    - od_mscxr
+    - od_vindrcxr15
+    - sg_mscxr
+    - rc_mscxr
+    - rc_cig
+
+name: chex_stage1
+
+batch_size: 256
+val_freq: 2000
+print_freq: 50
+max_epochs: 50
+lr: 1e-4
+min_lr: 1e-7
+warmup_lr: 0
+warmup_steps: 1000
+weight_decay: 1e-5
+accumulation_steps: 1
+grad_clip_norm: 1.0
+
+train_dataset:
+  mimiccxr_reports_cig_multiboxclssent:
+    oversampling_factor: 1.0
+    auto_balance: false
+  vindrcxr_boxes:
+    oversampling_factor: 1.0
+    auto_balance: true
+
+model:
+  patho_tok:
+    use_patho_detect: true
+    coeff_patho_detect: 10.0
+    subsample_patho_boxes: 10
+
+    use_patho_cls: True
+    coeff_patho_cls: 1.0
+    subsample_patho_cls: 10
+    patho_cls_temp: 0.2 
+
+  anat_tok:
+    region_encoding_mode: token
+
+    use_anat_det: True
+    coeff_anat_det: 0.1
+    subsample_anat_det: 20
+
+    use_anat_cls: True
+    coeff_anat_cls: 0.005
+    anat_cls_subsample_negatives: 10
+    anat_cls_temp: 0.25
+
+  sent_tok:
+    use_global_contr: True
+    coeff_global_contr: 1.0
+    global_contr_temp: 0.2
+
+    use_sent_contr: True
+    coeff_sent_contr:  0.005
+    sent_contr_temp: 0.25
+  

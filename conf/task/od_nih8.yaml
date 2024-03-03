@@ -1,0 +1,22 @@
+defaults:
+  - task@od_nih8
+  - /dataset@od_nih8.dataset: nih8_boxes
+  - /prompts@od_nih8.box_prompts: nih8_box
+  - /prompts@od_nih8.pos_prompts: nih8_pos
+  - /prompts@od_nih8.neg_prompts: nih8_neg
+
+od_nih8:
+  task: pathology_detection
+
+  classify_by_prompts: true
+  classify_by_weights: false
+  neg_prompt_mode: neg
+  normalize_classification: true
+  softmax_temperature: 0.1 
+  obj_threshold: 0.2
+  postprocess: top1_boxfusion
+  clip_boxes: true
+  skip_roi_pool_inference: true
+
+  plot_val_samples: 10
+ 

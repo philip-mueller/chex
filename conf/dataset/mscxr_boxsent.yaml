@@ -1,0 +1,16 @@
+
+defaults:
+  - /dataset@mscxr_boxsent: DatasetConfig
+  - class_names@mscxr_boxsent.class_names: ms_cxr
+  - class_names@mscxr_boxsent.class_names_with_boxes: ms_cxr
+
+mscxr_boxsent:
+  name: mimic_cxr-frontal-mscxr_boxesonly-mscxr_traintoval-mscxr_valtotest
+
+  pixel_mean: [0.505]
+  pixel_std: [0.248] 
+
+  has_class_bboxes: true
+  has_class_box_sentences: true
+
+  load_memmap: true

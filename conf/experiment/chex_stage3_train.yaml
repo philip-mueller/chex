@@ -1,0 +1,57 @@
+# @package _global_
+defaults:
+  - /transform@transform
+  - /model@model: chex_stage3
+  - /dataset@train_dataset: 
+    - mimiccxr_reports_cig_multiboxclssent
+  - /task@val_tasks: 
+    - train_metrics
+    - rc_re_mscxr
+    - rc_re_cig
+  - /task@eval_tasks: 
+    - rc_re_mscxr
+    - rc_re_cig
+    - rg_mimic
+
+train_dataset:
+  mimiccxr_reports_cig_multiboxclssent:
+    multi_anatomy_names: null
+val_tasks:
+  train_metrics:
+    dataset:
+      mimiccxr_reports_cig_multiboxclssent:
+        multi_anatomy_names: null
+
+name: chex_stage3
+
+batch_size: 8
+val_freq: null
+val_ep: 1
+print_freq: 50
+max_epochs: 20
+lr: 3e-4
+min_lr: 1e-7
+warmup_lr: 0
+warmup_steps: 10000
+weight_decay: 1e-3
+accumulation_steps: 32
+grad_clip_norm: 1.0
+
+model:
+  patho_tok: null
+  anat_tok:
+    region_encoding_mode: random
+    subsample_anat_det: 20
+
+    use_anat_mse: True
+    coeff_anat_mse: 0.04
+
+    use_anat_gen: True
+    coeff_anat_gen: 1.0
+
+  sent_tok:
+    use_sent_mse: True
+    coeff_sent_mse: 0.02
+
+    use_sent_gen: True
+    coeff_sent_gen: 0.5

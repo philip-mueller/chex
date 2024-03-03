@@ -1,0 +1,8 @@
+# @package _global_
+defaults:
+  - /task@eval_tasks:
+    - od_nih8
+    - od_mscxr
+    - od_vindrcxr15
+    - sg_mscxr
+  - _self_

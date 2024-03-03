@@ -1,0 +1,12 @@
+defaults:
+  - task@sg_mscxr
+  - /dataset@sg_mscxr.dataset: mscxr_boxsent
+
+sg_mscxr:
+  task: sentence_grounding
+
+  obj_threshold: 0.3
+  nms_threshold: 0.25
+  clip_boxes: true
+
+  skip_roi_pool_inference: true

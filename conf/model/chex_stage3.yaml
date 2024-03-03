@@ -1,0 +1,31 @@
+# -> Stage 3: Text Generation
+defaults:
+  - chex_stage2
+  - txt_decoder: PTunedDecoderModel
+
+load_components_from: 
+  img_encoder: chex_stage1
+  txt_encoder: chex_stage1
+  detector: chex_stage1
+  post_decoder: chex_stage2
+  txt_decoder: pretrain_txtgen
+ 
+freeze_loaded_components: [img_encoder, txt_encoder, detector]
+
+max_generated_sentences: 32
+max_sentences_full_sample: false
+post_decoder_multibox_drop: 0.1
+
+txt_decoder:
+  frozen_language_model: false
+  position_offset: null
+  prefix_length_factor: 5
+  n_projection_layers: 2
+  language_model_url: "healx/gpt-2-pubmed-medium"
+  max_length: 128
+
+  generation_kwargs:
+    do_sample: false
+    max_length: 128
+    num_beams: 1
+    use_cache: true 

@@ -1,0 +1,20 @@
+defaults:
+  - task@rc_re_cig
+  - /dataset@rc_re_cig.dataset: cig_anatboxclssent
+  - /prompts@rc_re_cig.pos_prompts: cigcls_pos
+  - /prompts@rc_re_cig.neg_prompts: cigcls_neg
+
+rc_re_cig:
+  task: anatomy_explanation
+
+  classify_boxes: true
+  neg_prompt_mode: neg
+  prompt_threshold: 0.5
+  normalize_classification: true
+    
+  generate_sentences: true
+  sentence_generartion_kwargs: 
+    max_length: 128
+    do_sample: false
+
+  use_target_boxes: true

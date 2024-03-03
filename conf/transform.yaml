@@ -1,0 +1,22 @@
+train_mode: random_crop  # random_crop, pad_resize, keepbbox_random_crop
+val_mode: rect_center # pad_resize
+train_size: [224, 224]
+crop_scale_range: [0.5, 1.0]
+
+random_horizontal_flip: true
+horizontal_flip_prob: 0.5
+
+random_affine: true
+affine_prob: 1.0
+rotation_angle_range: [-10, 10]
+translation_fraction_yx: [-0.02, 0.02]
+scaling_range: [0.95, 1.0] # [0.95, 1.05]
+
+random_jitter: true
+jitter_prob: 1.0
+contrast_jitter_ratio_range: [0.6, 1.4] 
+brightness_jitter_ratio_range: [0.6, 1.4] 
+
+gaussian_blur: true
+gaussian_blur_prob: 0.5
+gaussian_blur_sigma_range: [0.1, 5.0]

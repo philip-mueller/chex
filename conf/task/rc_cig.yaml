@@ -1,0 +1,17 @@
+defaults:
+  - task@rc_cig
+  - /dataset@rc_cig.dataset: cig_anatboxclssent
+  - /prompts@rc_cig.pos_prompts: cigcls_pos
+  - /prompts@rc_cig.neg_prompts: cigcls_neg
+
+rc_cig:
+  task: anatomy_explanation
+
+  classify_boxes: true
+  neg_prompt_mode: neg
+  prompt_threshold: 0.5
+  normalize_classification: true
+    
+  generate_sentences: false
+  
+  use_target_boxes: true

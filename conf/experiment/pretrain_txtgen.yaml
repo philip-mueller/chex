@@ -1,0 +1,60 @@
+# @package _global_
+defaults:
+  - /transform@transform
+  - /model@model: TxtGenPreTrainer
+  - /dataset@train_dataset: 
+    - mimiccxr_reports
+  - /task/task@val_tasks.sentgen
+  - /dataset@val_tasks.sentgen.dataset: mimiccxr_reports
+  - /model/txt_encoder@model.txt_encoder: ChexzeroTextEncoder
+  - /model/txt_decoder@model.txt_decoder: PTunedDecoderModel
+  - _self_
+
+name: pretrain_txtgen
+
+evaluate: false
+
+batch_size: 32
+val_freq: 2000
+print_freq: 50
+max_epochs: 50
+lr: 3e-4
+min_lr: 1e-7
+warmup_lr: 0
+warmup_steps: 10000
+weight_decay: 1e-5
+accumulation_steps: 8
+grad_clip_norm: 1.0
+
+val_tasks:
+  sentgen:
+    task: null
+    generation_kwargs:
+      max_length: 128
+      do_sample: false
+
+model:
+  enc_dec_dropout: 0.3
+  copy_token_min: 1
+  copy_token_max: 4
+  max_sentences: 64
+
+  txt_encoder:
+    frozen_language_model: true
+    n_projection_layers: 0
+    projection_bn: false
+    normalize_projected: false
+
+  txt_decoder: 
+    frozen_language_model: false
+    position_offset: null
+    prefix_length_factor: 5
+    n_projection_layers: 2
+    language_model_url: "healx/gpt-2-pubmed-medium"
+    max_length: 128
+
+    generation_kwargs:
+      do_sample: false
+      max_length: 128
+      num_beams: 1
+      use_cache: true 

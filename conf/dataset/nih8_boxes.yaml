@@ -1,0 +1,13 @@
+
+defaults:
+  - /dataset@nih8_boxes: DatasetConfig
+  - class_names@nih8_boxes.class_names: nih8
+  - class_names@nih8_boxes.class_names_with_boxes: nih8
+
+nih8_boxes:
+  name: nih_cxr
+
+  pixel_mean: [0.505]
+  pixel_std: [0.248] 
+
+  has_class_bboxes: true

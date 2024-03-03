@@ -1,0 +1,16 @@
+
+defaults:
+  - /dataset@vindrcxr_boxes: DatasetConfig
+  - class_names@vindrcxr_boxes.class_names: vindrcxr_loc_top15
+  - class_names@vindrcxr_boxes.class_names_with_boxes: vindrcxr_loc_top15
+
+vindrcxr_boxes:
+  name: vindrcxr
+
+  pixel_mean: [0.505]
+  pixel_std: [0.248] 
+
+  has_class_bboxes: true
+  has_class_labels: true
+
+  load_memmap: true

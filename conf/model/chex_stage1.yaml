@@ -1,0 +1,63 @@
+# -> Stage 1: Detection
+defaults:
+  - ImageTxtGrounding
+  - img_encoder: ChexzeroImageEncoder
+  - txt_encoder: ChexzeroTextEncoder
+  - detector: TokenDetector
+  - /prompts@pathology_pos_prompts: 
+    - vindrcxr_pos
+    - cigcls_pos
+  - /prompts@pathology_neg_prompts: 
+    - vindrcxr_neg
+    - cigcls_neg
+  - /prompts@anatomy_prompts: cig_anat_synonym
+
+cache_encoded_sentences: true
+
+d_model: 512
+
+act: gelu
+attention_dropout: 0.1
+dropout: 0.3
+droppath_prob: 0.2
+layer_scale: true
+layer_scale_init: 0.1
+n_head: 8
+
+randomize_prompts: true
+drop_sentence_prob: 0.0
+pathology_neg_prompt_mode: neg
+
+img_encoder:
+  frozen_backbone: false 
+  freeze_backbone_layers: 9
+  add_cls_features: false 
+  use_pretrained_projection: true
+  additional_projection_layers: 0
+  projection_bn: false
+  normalize_projected: false
+
+txt_encoder:
+  frozen_language_model: true
+  n_projection_layers: 0
+  projection_bn: false
+  normalize_projected: false
+
+detector:
+  multiregions: 3
+  n_decoder_layers: 6
+  decoder_sa: false
+  multiregion_sa: true
+  decoder_ff: true
+  enc_dec_droppath: false
+  shortcut_tokens: false
+  use_pos_embeddings: true
+  shortcut_pos_embeddings: false 
+
+  out_project_layers: 2
+  predictor_hidden_layers: 1
+  patch_project_layers: 1
+  
+  skip_con_roi_pool: true
+  skip_roi_pool_prob: 0.25
+  dropout_skip_roi_pool: 0.3

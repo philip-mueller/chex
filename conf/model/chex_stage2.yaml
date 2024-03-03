@@ -1,0 +1,17 @@
+# -> Stage 2: Post Decoder
+defaults:
+  - chex_stage1
+
+load_components_from: 
+  img_encoder: chex_stage1
+  txt_encoder: chex_stage1
+  detector: chex_stage1
+
+freeze_loaded_components: [img_encoder, txt_encoder, detector]
+
+n_post_decoder_layers: 3
+post_decoder_patches: true
+post_decoder_cls: true
+post_decoder_droppath: true
+post_decoder_multibox_drop: 0.3
+post_decoder_gate: true

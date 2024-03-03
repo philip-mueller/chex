@@ -1,0 +1,25 @@
+defaults:
+  - task@od_vindrcxr
+  - /dataset@od_vindrcxr.dataset: vindrcxr_boxes_top15
+  - /prompts@od_vindrcxr.box_prompts: vindrcxr_box
+  - /prompts@od_vindrcxr.pos_prompts: vindrcxr_pos  
+  - /prompts@od_vindrcxr.neg_prompts: vindrcxr_neg 
+ 
+od_vindrcxr:
+  task: pathology_detection
+
+  classify_by_prompts: true
+  classify_by_weights: true
+  neg_prompt_mode: neg
+  normalize_classification: true
+  softmax_temperature: 0.5
+  obj_threshold: 0.05
+
+  postprocess: nms
+  nms_threshold: 0.25
+  clip_boxes: true
+
+
+  skip_roi_pool_inference: true
+  
+  plot_val_samples: 10

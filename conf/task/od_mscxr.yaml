@@ -1,0 +1,25 @@
+defaults:
+  - task@od_mscxr
+  - /dataset@od_mscxr.dataset: mscxr_boxsent
+  - /prompts@od_mscxr.box_prompts: mscxr_box
+  - /prompts@od_mscxr.pos_prompts: mscxr_pos  
+  - /prompts@od_mscxr.neg_prompts: mscxr_neg 
+
+od_mscxr:
+  task: pathology_detection
+
+  classify_by_prompts: true
+  classify_by_weights: false
+  neg_prompt_mode: neg
+  normalize_classification: true
+  softmax_temperature: 0.1
+  obj_threshold: 0.2
+
+  postprocess: nms
+  nms_threshold: 0.25
+  clip_boxes: true
+
+
+  skip_roi_pool_inference: true
+  
+  plot_val_samples: 10

@@ -1,0 +1,12 @@
+defaults:
+  - /dataset@mimiccxr_reports: DatasetConfig
+
+mimiccxr_reports:
+  name: mimic_cxr-frontal-report
+
+  pixel_mean: [0.505]
+  pixel_std: [0.248] 
+
+  has_sentences: true
+
+  load_memmap: true

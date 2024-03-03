@@ -1,0 +1,8 @@
+mscxr/Atelectasis: ["Atelectasis"]
+mscxr/Cardiomegaly: ["Cardiomegaly"]
+mscxr/Consolidation: ["Consolidation"]
+mscxr/Edema: ["Edema"]
+mscxr/Lung Opacity: ["Lung opacity"]
+mscxr/Pleural Effusion: ["Pleural effusion"]
+mscxr/Pneumonia: ["Pneumonia"]
+mscxr/Pneumothorax: ["Pneumothorax"]

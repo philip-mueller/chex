@@ -1,0 +1,8 @@
+mscxr/Atelectasis: ["No atelectasis"]
+mscxr/Cardiomegaly: ["No cardiomegaly"]
+mscxr/Consolidation: ["No consolidation"]
+mscxr/Edema: ["No edema"]
+mscxr/Lung Opacity: ["No lung opacity"]
+mscxr/Pleural Effusion: ["No pleural effusion"]
+mscxr/Pneumonia: ["No pneumonia"]
+mscxr/Pneumothorax: ["No pneumothorax"]

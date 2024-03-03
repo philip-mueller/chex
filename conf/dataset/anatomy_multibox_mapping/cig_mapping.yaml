@@ -1,0 +1,15 @@
+lungs:
+  - right lung
+  - left lung
+upper lung zones:
+  - right upper lung zone
+  - left upper lung zone
+middle lung zones:
+  - right mid lung zone
+  - left mid lung zone
+lower lung zones:
+  - right lower lung zone
+  - left lower lung zone
+apical zones:
+  - right apical zone
+  - left apical zone

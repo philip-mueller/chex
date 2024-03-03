@@ -1,0 +1,9 @@
+defaults:
+  - task@train_metrics
+  - /dataset@train_metrics.dataset: mimiccxr_reports_cig_multiboxclssent
+
+train_metrics:
+  task: null
+  plot_val_samples: 10
+
+  no_patho_token_supervision: True

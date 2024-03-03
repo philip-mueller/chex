@@ -1,0 +1,45 @@
+
+name: chex
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+  - pylint
+  - IPython
+  - ipykernel
+  - jupyter
+
+  - numpy
+  - pytorch=2.0
+  - torchvision=0.15
+  - torchmetrics=0.11
+  - pytorch-cuda=11.7
+  - timm
+  - einops
+  - matplotlib
+  - pandas
+  - tqdm
+  - kaggle
+  - wandb
+
+  - pip:
+    - transformers==4.37
+    - tokenizers==0.15
+    - stanza
+    - hydra-core==1.3
+    - omegaconf
+    - albumentations==1.3
+    - ensemble_boxes
+    - pydicom
+    - exposure
+    - ftfy
+    - git+https://github.com/bes-dev/mean_average_precision.git
+    - deepdiff
+    - lovely_tensors
+    - pycocoevalcap
+    - click

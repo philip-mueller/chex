@@ -1,0 +1,17 @@
+
+defaults:
+  - /dataset@cig_boxclssent: DatasetConfig
+  - anatomy_names@cig_boxclssent.anatomy_names: cig_default
+  - class_names@cig_boxclssent.class_names: cig_all
+
+cig_boxclssent:
+  name: mimic_cxr-frontal-cig_anatboxes-cig_anatphrases-cig_anatlabels
+
+  pixel_mean: [0.505]
+  pixel_std: [0.248] 
+
+  has_anatomy_bboxes: true
+  has_anatomy_class_labels: true
+  has_anatomy_sentences: true
+
+  load_memmap: true

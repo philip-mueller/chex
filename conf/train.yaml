@@ -1,0 +1,32 @@
+defaults:
+  - ExperimentConfig
+  - _self_
+
+seed: 42
+
+num_workers: ${oc.env:NUM_WORKERS,10}
+prefetch: ${oc.env:IMG_PREFETCH,false}
+device: cuda
+debug: false
+save_components: []
+
+train: true
+evaluate: true
+eval_mode: val
+
+hydra:
+  job:
+    name: ${name}
+    config:
+      override_dirname:
+        kv_sep: __
+        item_sep: /
+        exclude_keys: [experiment, name, device, print_freq, val_freq, debug,
+                       num_workers, prefetch]
+
+  run:
+    dir: ${ifel:${debug},debug_logs,${models_dir:}}/${name}/${hydra.job.override_dirname}/run_${now:%Y-%m-%d_%H-%M-%S}
+
+  sweep:
+    dir: ${ifel:${debug},debug_logs,${models_dir:}}/${name}
+    subdir: ${hydra.job.override_dirname}/run_${now:%Y-%m-%d_%H-%M-%S}

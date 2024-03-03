@@ -1,0 +1,32 @@
+defaults:
+  - EvaluationConfig
+  - _self_  # allows configs defined in this file to be overwritten by experiment
+
+num_workers: ${oc.env:NUM_WORKERS,10}
+prefetch: ${oc.env:IMG_PREFETCH,false}
+device: cuda
+debug: false
+seed: 42
+run_name: null  # e.g. run_2024-01-01_00-00-00
+load_best: false
+
+eval_mode: val
+optimize_inference: false
+bootstrap: false
+
+update_wandb: false
+plot_wandb: false
+
+hydra:
+  job:
+    name: eval_${now:%Y-%m-%d_%H-%M-%S}
+    config:
+      override_dirname:
+        exclude_keys: [experiment, model_name, device, eval_prefix, dataset, dataset.name, prefetch, num_workers]
+
+  run:
+    dir: ${ifel:${debug},debug_logs,${models_dir:}}/${model_name}/eval_${now:%Y-%m-%d_%H-%M-%S}
+
+  sweep:
+    dir: ${models_dir:}/${model_name}/evals
+    subdir: eval_${now:%Y-%m-%d_%H-%M-%S}
