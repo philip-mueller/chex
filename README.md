@@ -11,6 +11,7 @@ For setup of the python environment and specification of paths, execute the foll
 1. Run the following commands from the root dir of this project:
 
     conda env create -f environment.yml 
+    conda activate chex
     pip install -e .
 
 2. Setup W&B by setting the environment variables `WANDB_PROJECT` (the project name here, defaulting to "chex") and `WANDB_ENTITY` (your W&B username)

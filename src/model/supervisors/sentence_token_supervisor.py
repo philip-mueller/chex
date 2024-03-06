@@ -24,12 +24,12 @@ log = logging.getLogger(__name__)
 class SentenceTokenConfig:
     # --- Loss: Global contrastive CLIP-style (global-contr) ---
     use_global_contr: bool = False
-    coeff_global_contr: float = MISSING
+    coeff_global_contr: float = 0.0
     global_contr_temp: float = 0.2
 
     # --- Loss: Sentence-level contrastive (sent-contr) ---
     use_sent_contr: bool = False
-    coeff_sent_contr: float = MISSING
+    coeff_sent_contr: float = 0.0
     sent_contr_temp: float = 0.25
     cross_sample_sentence_negatives: bool = True
     lambda_sent2reg: float = 0.0
@@ -37,11 +37,11 @@ class SentenceTokenConfig:
 
     # --- Loss: Sentence MSE (sent-mse) ---
     use_sent_mse: bool = False
-    coeff_sent_mse: float = MISSING
+    coeff_sent_mse: float = 0.0
 
     # --- Loss: Sentence Generation (sent-gen) ---
     use_sent_gen: bool = False
-    coeff_sent_gen: float = MISSING
+    coeff_sent_gen: float = 0.0
     
     no_skip_roi_pool: bool = False
 
@@ -78,12 +78,6 @@ class SentenceTokenSupervisor(nn.Module):
             encoded_image = encoded_image[has_sentences]
             sentence_features = sentence_features[has_sentences]
             sentence_mask = sentence_mask[has_sentences]
-            if sentence_bbox_constraints is not None:
-                sentence_bbox_constraints = sentence_bbox_constraints[has_sentences]
-                sentence_bbox_constraints_masks = sentence_bbox_constraints_masks[has_sentences]
-            if sentence_cls_labels is not None:
-                sentence_cls_labels = sentence_cls_labels[has_sentences]
-                sentence_cls_labels_masks = sentence_cls_labels_masks[has_sentences]
         # (N x H x W x d)
         patch_features = encoded_image.patch_features
 
@@ -111,7 +105,7 @@ class SentenceTokenSupervisor(nn.Module):
 
         # --- Loss: Global contrastive CLIP-style (global-contr) ---
         if self.config.use_global_contr:
-            sub_losses['l_sent/global_contr'] = global_contrastive_loss(aggregated_patches, aggregated_sentences, temperature=self.config.global_contr_temp)
+            sub_losses['l_sent/global_contr'] = global_contrastive_loss(aggregated_patches, aggregated_sentences, temp=self.config.global_contr_temp)
             loss += self.config.coeff_global_contr * sub_losses['l_sent/global_contr']
 
         # --- Loss: Sentence-level contrastive (sent-contr) ---
@@ -120,7 +114,7 @@ class SentenceTokenSupervisor(nn.Module):
                 sentence_features, # (N x S x d)
                 sentence_region_features, # (N x S x d)
                 sentence_mask, # (N x S)
-                temperature=self.config.sent_contr_temp,
+                temp=self.config.sent_contr_temp,
                 cross_sample_negatives=self.config.cross_sample_sentence_negatives,
                 lambda_sent2reg=self.config.lambda_sent2reg,
                 lambda_reg2sent=self.config.lambda_reg2sent)
@@ -156,7 +150,7 @@ class SentenceTokenSupervisor(nn.Module):
             'grounding': sentence_grounding_output,
         }
 
-        if self.config.generate_sentences and generate:
+        if self.config.use_sent_gen and generate:
             sent_outputs['generated_sentences'] = model.generate_sentences(sentence_region_features, sentence_mask)
 
         return loss, sub_losses, sent_outputs

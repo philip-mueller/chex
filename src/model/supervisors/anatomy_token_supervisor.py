@@ -10,7 +10,6 @@ import numpy as np
 from dataclasses import dataclass, field
 from omegaconf import MISSING
 from model.components.bbox_losses import bbox_giou_ccost, bbox_giou_pcost, bbox_l1_ccost, bbox_l1_pcost, match_multiregions
-from model.components.prompt_alignment_losses import region_multiprompt_contrastive_loss
 from model.detector.token_decoder_detector import TokenDetectorOutput
 
 from model.img_encoder import ImageEncoderOutput
@@ -28,7 +27,7 @@ class AnatomyTokenConfig:
 
     # --- Loss: Anatomy bounding box (anat-det) ---
     use_anat_det: bool = False
-    coeff_anat_det: float = MISSING
+    coeff_anat_det: float = 0.0
     subsample_anat_det: Optional[int] = 20
 
     loss_coeff_bbox: float = 5.
@@ -42,7 +41,7 @@ class AnatomyTokenConfig:
 
     # --- Loss: Anatomy Classification (anat-cls) ---
     use_anat_cls: bool = False
-    coeff_anat_cls: float = MISSING
+    coeff_anat_cls: float = 0.0
     subsample_anat_cls: Optional[int] = None
     subsample_anat_cls_pathologies: Optional[int] = None
     
@@ -55,11 +54,11 @@ class AnatomyTokenConfig:
 
     # --- Loss: Anatomy MSE (anat-mse) ---
     use_anat_mse: bool = False
-    coeff_anat_mse: float = MISSING
+    coeff_anat_mse: float = 0.0
 
     # --- Loss: Anatomy Sentence Generation (anat-gen) ---
     use_anat_gen: bool = False
-    coeff_anat_gen: float = MISSING
+    coeff_anat_gen: float = 0.0
     # concat, sample
     multi_sentence_mode: str = 'concat'
     # ignore, empty_string, no_finding

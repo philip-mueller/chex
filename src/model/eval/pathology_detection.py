@@ -63,7 +63,7 @@ class PathologyDetectionEvalConfig(EvalConfig):
 class PathologyDetectionEvaluator(Evaluator):
     def __init__(self, config: PathologyDetectionEvalConfig, model: 'ChEX', **kwargs):
         super().__init__(config, config_cls=PathologyDetectionEvalConfig, **kwargs)
-        from src.model.chex import ChEX
+        from model.chex import ChEX
         self.model: ChEX = model
         config = self.config
 

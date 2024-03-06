@@ -4,9 +4,9 @@ import logging
 from typing import Any, Dict, List, Optional, Tuple, Union
 import einops
 from omegaconf import MISSING
-from src.model.img_encoder.chexzero_img_encoder import ChexzeroImageEncoder, ChexzeroImageEncoderConfig
-from src.model.txt_decoder.ptuned_decoder import PTunedDecoderConfig, PTunedDecoderModel
-from src.model.txt_encoder.chexzero_txt_encoder import ChexzeroTextEncoder, ChexzeroTextEncoderConfig
+from model.img_encoder.chexzero_img_encoder import ChexzeroImageEncoder, ChexzeroImageEncoderConfig
+from model.txt_decoder.ptuned_decoder import PTunedDecoderConfig, PTunedDecoderModel
+from model.txt_encoder.chexzero_txt_encoder import ChexzeroTextEncoder, ChexzeroTextEncoderConfig
 
 import torch.nn.functional as F
 import torch
@@ -584,7 +584,7 @@ class TrainEvalConfig(EvalConfig):
     no_sent_token_supervision: bool = False
 
 class TrainEvaluator(Evaluator):
-    def __init__(self, task: TrainEvalConfig, model: ImageTxtGrounding, **kwargs):
+    def __init__(self, task: TrainEvalConfig, model: ChEX, **kwargs):
         super().__init__(task, TrainEvalConfig, **kwargs)
         self.model = model
         self._register_metric(TrainingMetrics(eval_generation=model.has_txt_decoder))

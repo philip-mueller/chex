@@ -22,34 +22,34 @@ class TransformConfig:
     erosion_rate: float = 0.2
 
     val_mode: str = MISSING
-    val_size: Optional[List[int]] = MISSING
+    val_size: Optional[List[int]] = None
 
     # Horizontal flip
-    random_horizontal_flip: bool = MISSING
+    random_horizontal_flip: bool = False
     horizontal_flip_prob: Optional[float] = MISSING
 
     # Random affine transformation
-    random_affine: bool = MISSING
+    random_affine: bool = False
     affine_prob: Optional[float] = MISSING
     rotation_angle_range: List[float] = MISSING
     translation_fraction_yx: List[float] = MISSING
     scaling_range: List[float] = MISSING
 
     # Elastic deformation
-    elastic_deformation: bool = MISSING
+    elastic_deformation: bool = False
     elastic_deformation_prob: Optional[float] = MISSING
     elastic_deformation_alpha: float = MISSING
     elastic_deformation_sigma: float = MISSING
     elasitc_defomration_alpha_affine: float = MISSING
 
     # Random jitter
-    random_jitter: bool = MISSING
+    random_jitter: bool = False
     jitter_prob: Optional[float] = MISSING
     brightness_jitter_ratio_range: List[float] = MISSING
     contrast_jitter_ratio_range: List[float] = MISSING
     
     # Gaussian blurring
-    gaussian_blur: bool = MISSING
+    gaussian_blur: bool = False
     gaussian_blur_prob: Optional[float] = MISSING
     gaussian_blur_sigma_range: List[float] = MISSING
 

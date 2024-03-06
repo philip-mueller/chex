@@ -45,7 +45,7 @@ class BoxExplainerConfig(EvalConfig):
 class BoxExplainerEvaluator(Evaluator):
     def __init__(self, config: BoxExplainerConfig, model: 'ChEX', bootstrap=False,  results_path: Optional[str] = None, **kwargs):
         super().__init__(config, config_cls=BoxExplainerConfig, **kwargs)
-        from src.model.chex import ChEX
+        from model.chex import ChEX
         self.model: ChEX = model
 
         assert self.dataset.has_class_bboxes

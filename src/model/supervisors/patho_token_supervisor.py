@@ -3,7 +3,7 @@ import logging
 from typing import Optional
 import einops
 from omegaconf import MISSING
-from src.model.components.contrastive_losses import pathology_contrastive_loss
+from model.components.contrastive_losses import pathology_contrastive_loss
 import torch.nn.functional as F
 from torch import BoolTensor, nn
 
@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 class PathologyTokenConfig:
     # --- Loss: Pathology bounding box (patho-det) ---
     use_patho_detect: bool = False
-    coeff_patho_detect: float = MISSING
+    coeff_patho_detect: float = 0.0
     subsample_patho_boxes: Optional[int] = 10
 
     # multiregion, random, largest
@@ -42,7 +42,7 @@ class PathologyTokenConfig:
 
     # --- Loss: Pathology Classification (patho-cls) ---
     use_patho_cls: bool = False
-    coeff_patho_cls: float = MISSING
+    coeff_patho_cls: float = 0.0
     subsample_patho_cls: Optional[int] = 10
     patho_cls_temp: float =  0.2 
     use_negatives_of_other_classes: bool = True

@@ -82,7 +82,7 @@ class ReportGenerationOutput(BaseModelOutput):
 class ReportEvaluator(Evaluator):
     def __init__(self, config: ReportGenerationConfig, model: 'ChEX',  bootstrap=False, results_path: Optional[str] = None,  **kwargs):
         super().__init__(config, config_cls=ReportGenerationConfig, **kwargs)
-        from src.model.chex import ChEX
+        from model.chex import ChEX
         self.model: ChEX = model
 
         self.pathology_names = self.config.pathology_names

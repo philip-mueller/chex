@@ -11,7 +11,5 @@ rc_mscxr:
   neg_prompt_mode: pos_centroid
   normalize_classification: true
 
-  generate_sentences: true
-  sentence_generartion_kwargs: 
-    max_length: 128
-    do_sample: false
+  generate_sentences: false
+  

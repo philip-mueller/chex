@@ -53,7 +53,7 @@ class AnatomyExplainerConfig(EvalConfig):
 class AnatomyExplainerEvaluator(Evaluator):
     def __init__(self, config: AnatomyExplainerConfig, model: 'ChEX', bootstrap=False, results_path: Optional[str] = None,  **kwargs):
         super().__init__(config, config_cls=AnatomyExplainerConfig, **kwargs)
-        from src.model.chex import ChEX
+        from model.chex import ChEX
         self.model: ChEX = model
 
         assert self.dataset.anatomy_names is not None and len(self.dataset.anatomy_names) > 0, 'Dataset does not have anatomy names (missing anatomy_names in the config)'
@@ -78,7 +78,7 @@ class AnatomyExplainerEvaluator(Evaluator):
             assert self.dataset.has_anatomy_sentences
             self.sentence_metrics = SentenceMetrics(
                 use_meteor=True, use_ce=True, use_ratio=True,
-                use_bleu=False, use_rouge=False,use_cider=False, use_ratio=False, 
+                use_bleu=False, use_rouge=False,use_cider=False,
                 micro=True, normal_abnormal=True, region_names=self.anatomy_names,
                 ce_per_class=True)
             if bootstrap:

@@ -1,6 +1,6 @@
 defaults:
   - task@rc_re_cig
-  - /dataset@rc_re_cig.dataset: cig_anatboxclssent
+  - /dataset@rc_re_cig.dataset: cig_boxclssent
   - /prompts@rc_re_cig.pos_prompts: cigcls_pos
   - /prompts@rc_re_cig.neg_prompts: cigcls_neg
 

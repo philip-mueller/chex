@@ -1,6 +1,6 @@
 # -> Stage 1: Detection
 defaults:
-  - ImageTxtGrounding
+  - ChEX
   - img_encoder: ChexzeroImageEncoder
   - txt_encoder: ChexzeroTextEncoder
   - detector: TokenDetector

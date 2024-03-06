@@ -89,7 +89,7 @@ class ImageWithSupervisionDataset(Dataset):
             data_df, self.load_indices, self.load_fn = load_cxr14_dataset(mode)
             loaded_size = None
         else:
-            raise ValueError(f'Unknwon dataset {config.name}. Currently only MIMIC CXR datasets (with prefix "mimic_cxr-") are supported')
+            raise ValueError(f'Unknwon dataset {config.name}. Config: {config}')
         self.sample_ids = data_df.sample_id.to_list()
         
         # images may have already been preprocessed (resized/cropped/padded) but the bboxes are still in the original image coordinates

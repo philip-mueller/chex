@@ -43,7 +43,7 @@ class SentenceGroundingEvalConfig(EvalConfig):
 class SentenceGroundingEvaluator(Evaluator):
     def __init__(self, config: SentenceGroundingEvalConfig, model: 'ChEX', **kwargs):
         super().__init__(config, config_cls=SentenceGroundingEvalConfig, **kwargs)
-        from src.model.chex import ChEX
+        from model.chex import ChEX
         self.model: ChEX = model
         config = self.config
 

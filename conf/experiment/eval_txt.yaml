@@ -2,6 +2,6 @@
 defaults:
   - /task@eval_tasks:
     - rc_re_mscxr
-    - rc_re_cig
+    - rc_re_cig 
     - rg_mimic
   - _self_

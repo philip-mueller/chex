@@ -21,31 +21,23 @@ def plot_grounding(model_output: 'ChEX', max_samples: int = 10):
     for i in range(max_samples):
         output_i = model_output[i]
         fig = plot_grounding_sample(output_i.x, output_i.sentences,
-                                output_i.encoded_img.patch_features, output_i.patch_weights,
-                                output_i.encoded_sentences.sentence_features, output_i.encoded_sentences.sentence_mask, output_i.sentence_weights,
+                                output_i.encoded_img.patch_features, 
+                                output_i.encoded_sentences.sentence_features, output_i.encoded_sentences.sentence_mask,
                                 output_i.grounding.boxes, output_i.grounding.multiboxes,
-                                output_i.grounding.box_features, output_i.region_weights)
+                                output_i.grounding.box_features)
         figs.append(wandb.Image(fig))
     return figs
 
 
 def plot_grounding_sample(img, sentences,
-                          patch_features, patch_weights,
-                          sentence_features, sentence_mask, sentence_weights,
-                          boxes, multiboxes, box_features, box_weights):
+                          patch_features, 
+                          sentence_features, sentence_mask, 
+                          boxes, multiboxes, box_features):
     n_sentences = len(sentences)
     assert sentence_mask.sum() == n_sentences, f'Expected {n_sentences} sentences, got {sentence_mask.sum()}'
     img_shape = img.shape
     img = img.numpy()
 
-    has_weights = sentence_weights is not None
-    if has_weights:
-        assert sentence_weights.shape == sentence_mask.shape
-        assert box_weights is not None and patch_weights is not None
-        sentence_weights = sentence_weights[sentence_mask].numpy()
-        box_weights = box_weights[sentence_mask].numpy()
-        patch_weights = F.interpolate(patch_weights[None, None, ...], size=img_shape, mode='bilinear').squeeze().numpy()
-    
     sentence_features = sentence_features[sentence_mask]
     box_features = box_features[sentence_mask]
     if multiboxes is not None:
@@ -98,7 +90,7 @@ def plot_grounding_sample(img, sentences,
 
     # Plotting...
     fig = plt.figure(figsize=(12, 6))
-    gs = gridspec.GridSpec(nrows=2, ncols=4 if has_weights else 3, height_ratios=[1, 1])
+    gs = gridspec.GridSpec(nrows=2, ncols=3, height_ratios=[1, 1])
 
     ax_boxes = fig.add_subplot(gs[0, 0])
     ax_boxes.set_xticks([])
@@ -109,22 +101,12 @@ def plot_grounding_sample(img, sentences,
         sentence_ids_array = sentence_ids_array[:, None].repeat(R, axis=1)
     boxes_with_ids = np.concatenate([boxes, sentence_ids_array[:, None] - 1], axis=1) if multiboxes is None \
         else np.concatenate([boxes, sentence_ids_array[:, :, None] - 1], axis=2)
-
-    if has_weights:
-        boxes_with_ids = np.concatenate([boxes_with_ids, box_weights[:, None]], axis=1) if multiboxes is None \
-            else np.concatenate([boxes_with_ids, box_weights[:, None, None].repeat(R, axis=1)], axis=2)
-        if multiboxes is not None:
-            boxes_with_ids = boxes_with_ids.reshape(-1, 6)
-
-        plot_img_with_bounding_boxes(ax_boxes, class_names=sentence_ids, 
-                                    img=img, pred_list=boxes_with_ids, plot_gt=False,
-                                    class_cmap=sentence_colors)
-    else:
-        if multiboxes is not None:
-            boxes_with_ids = boxes_with_ids.reshape(-1, 5)
-        plot_img_with_bounding_boxes(ax_boxes, class_names=sentence_ids, 
-                                    img=img, target_list=boxes_with_ids, plot_pred=False,
-                                    class_cmap=sentence_colors)
+    
+    if multiboxes is not None:
+        boxes_with_ids = boxes_with_ids.reshape(-1, 5)
+    plot_img_with_bounding_boxes(ax_boxes, class_names=sentence_ids, 
+                                img=img, target_list=boxes_with_ids, plot_pred=False,
+                                class_cmap=sentence_colors)
         
     boxes_upper_left = (boxes_with_ids[:, :2] - boxes_with_ids[:, 2:4] / 2) * img_shape[::-1]
     boxes_lower_right = (boxes_with_ids[:, :2] + boxes_with_ids[:, 2:4] / 2) * img_shape[::-1]
@@ -142,44 +124,21 @@ def plot_grounding_sample(img, sentences,
             x = (x + 0.5) * upsample_factor[1] - 1
             ax_patch_neighbors.text(x, y, neighbor, ha='center', va='center', color='w')
 
-    if has_weights:
-        ax_patch_weights = fig.add_subplot(gs[0, 2])
-        ax_patch_weights.imshow(img, cmap='gray')
-        ax_patch_weights.imshow(patch_weights, cmap='hot', vmin=0, vmax=patch_weights.max(), alpha=0.9 * patch_weights)
-        ax_patch_weights.set_xticks([])
-        ax_patch_weights.set_yticks([])
-
     ax_sent_barplots = fig.add_subplot(gs[0, -1])
     sentence_ids = np.array(sentence_ids)
     bar_pos = np.linspace(-0.3, 0.3, n_sentences)
-    if has_weights:
-        ax_sent_barplots.bar(bar_pos, sentence_weights, color=sentence_colors, width=0.6 / n_sentences)
-        ax_sent_barplots.bar(bar_pos + 1, box_weights, color=sentence_colors, width=0.6 / n_sentences)
-        ax_sent_barplots2 = ax_sent_barplots.twinx() 
-        ax_sent_barplots2.bar(bar_pos + 2, sentence_region_cos, color=sentence_colors, width=0.6 / n_sentences)
-        ax_sent_barplots.set_xticks([0, 1, 2])
-        ax_sent_barplots.set_xticklabels(['ws', 'wr', 'cos'])
-    else:
-        ax_sent_barplots.bar(bar_pos, sentence_region_cos, color=sentence_colors, width=0.6 / n_sentences)
-        ax_sent_barplots.set_xticks([0])
-        ax_sent_barplots.set_xticklabels(['cos'])
+    
+    ax_sent_barplots.bar(bar_pos, sentence_region_cos, color=sentence_colors, width=0.6 / n_sentences)
+    ax_sent_barplots.set_xticks([0])
+    ax_sent_barplots.set_xticklabels(['cos'])
 
-    if has_weights:
-        tab_data = [
-            *zip(sentence_ids, sentences, sentence_weights.round(2), box_weights.round(2), sentence_rank, region_rank, sentence_region_l2.round(2), sentence_region_cos.round(2), region_sentence_neighbor, sentence_region_neighbor)
-        ]
-        tab_colors = [
-            [col, col, col, col, col, col, col, col, sentence_colors[neighbor_s - 1], sentence_colors[neighbor_r - 1]] 
-            for col, neighbor_s, neighbor_r in zip(sentence_colors, region_sentence_neighbor, sentence_region_neighbor)
-        ]
-    else:
-        tab_data = [
-            *zip(sentence_ids, sentences, sentence_rank, region_rank, sentence_region_l2.round(2), sentence_region_cos.round(2), region_sentence_neighbor, sentence_region_neighbor)
-        ]
-        tab_colors = [
-            [col, col, col, col, col, col, sentence_colors[neighbor_s - 1], sentence_colors[neighbor_r - 1]] 
-            for col, neighbor_s, neighbor_r in zip(sentence_colors, region_sentence_neighbor, sentence_region_neighbor)
-        ]
+    tab_data = [
+        *zip(sentence_ids, sentences, sentence_rank, region_rank, sentence_region_l2.round(2), sentence_region_cos.round(2), region_sentence_neighbor, sentence_region_neighbor)
+    ]
+    tab_colors = [
+        [col, col, col, col, col, col, sentence_colors[neighbor_s - 1], sentence_colors[neighbor_r - 1]] 
+        for col, neighbor_s, neighbor_r in zip(sentence_colors, region_sentence_neighbor, sentence_region_neighbor)
+    ]
 
     ax_table = fig.add_subplot(gs[1, :])
     ax_table.axis('off')
@@ -190,13 +149,13 @@ def plot_grounding_sample(img, sentences,
         colLoc='center',
         loc='center',
         cellColours=tab_colors,
-        colLabels=['ID', 'Sentence', 'ws', 'wr', 'Rank s', 'Rank r', 'L2', 'cos', '1-NN s', '1-NN r'] if has_weights else ['ID', 'Sentence', 'Rank s', 'Rank r', 'L2', 'cos', '1-NN s', '1-NN r'],
-        colWidths=[0.04, 0.6, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05] if has_weights else [0.04, 0.7, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
+        colLabels=['ID', 'Sentence', 'Rank s', 'Rank r', 'L2', 'cos', '1-NN s', '1-NN r'],
+        colWidths=[0.04, 0.7, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
     )
     table.auto_set_font_size(False)
     table.set_fontsize(10)
     table.scale(1, 1.5)
-    n_cols = 10 if has_weights else 8
+    n_cols = 8
 
     # Apply custom cell renderer to each cell
     for i in range(len(sentences) + 1):

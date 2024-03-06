@@ -1,8 +1,10 @@
-from typing import Optional
-from src.model.components.transformer import AttentionMask
+from typing import Collection, Optional
+from model.components.transformer import AttentionMask
 import torch
 import torch.nn.functional as F
 import einops
+
+from model.supervisors.utils import subsample_anat_neg_classes_balanced
 
 
 def global_contrastive_loss(z1, z2, temp: float):
