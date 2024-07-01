@@ -1,14 +1,6 @@
-# Third-Party Code: CheXZero
-Third-party code from https://github.com/rajpurkarlab/CheXzero
-
-## Project Licenses
-The source code of this repository was derived from CheXzero (https://github.com/rajpurkarlab/CheXzero) and OpenAI CLIP (https://github.com/openai/CLIP). 
-
-### Open Source License / Copyright Notice
-```
 MIT License
 
-Copyright (c) 2021 OpenAI
+Copyright (c) 2024 Philip Müller
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,4 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```

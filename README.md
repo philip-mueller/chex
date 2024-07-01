@@ -1,8 +1,43 @@
-# Chest X-Ray Explainer (ChEX)
-Report generation models offer fine-grained textual interpretations of medical images like chest X-rays, yet integrating them seamlessly into clinical workflows remains challenging due to limited interpretability and interactivity complicating manual intervention. 
+# ChEX: Interactive Localization and Region Description in Chest X-rays
+This is the official PyTorch implementation of ChEX (ECCV 2024).
+
+**[[Paper - arXiv:2404.15770]](https://arxiv.org/abs/2404.15770) | Accepted at ECCV 2024**
+
+> **ChEX: Interactive Localization and Region Description in Chest X-rays (ECCV 2024)** <br>
+> Philip Müller, Georgios Kaissis, and Daniel Rueckert <br>
+
+> **Abstract:** Report generation models offer fine-grained textual interpretations of medical images like chest X-rays, yet integrating them seamlessly into clinical workflows remains challenging due to limited interpretability and interactivity complicating manual intervention. 
 While there have been some efforts to tackle these issues, previous models lack support for textual queries or fail to provide bounding boxes for their textual answers. We address these limitations by proposing a novel multitask architecture and training paradigm integrating textual prompts and bounding boxes for diverse aspects like anatomical regions and pathologies. We call this approach the Chest X-Ray Explainer (ChEX). Evaluations across a diverse set of 9 chest X-ray tasks, including localized image interpretation and report generation, showcase its competitiveness with SOTA models while additional analysis demonstrates ChEX’s interactive capabilities. Code will be made available upon acceptance.
 
-## Setup
+<p align="center">
+<img src="figs/chex_main.png" width=80% height=80%
+class="center">
+</p>
+
+**Figure 1:** Given a chest X-ray and a user query, either as a textual prompt (e.g., a pathology name, an anatomical region, or both) or as a bounding box, the model predicts a textual description of the queried region or aspect. For textual user prompts, it additionally predicts relevant bounding boxes. Thus, ChEX facilitates the interactive interpretation of chest X-rays while providing (localized) interpretability.
+
+
+## Outline
+
+1. [Model Overview](#model-overview)
+2. [Setup (Environment and Datasets)](#setup-environment-and-datasets)
+3. [Training](#training)
+4. [Evaluation](#evaluation)
+5. [Results](#results)
+6. [Source-Code Structure](#source-code-structure)
+7. [Model Checkpoints](#model-checkpoints)
+8. [Citation](#citation)
+9. [Notice](#notice)
+
+## Model Overview
+<p align="center">
+<img src="figs/chex_architecture.png" width=80% height=80%
+class="center">
+</p>
+
+**Figure 2:** Architecture of ChEX. The DETR-style ${\textsf{\color{green}prompt detector}}$ predicts bounding boxes and features for ROIs based on prompt tokens (textual prompts encoded by the ${\textsf{\color{purple}prompt encoder}}$) and patch features (from the ${\textsf{\color{blue}image encoder}}$). The ${\textsf{\color{orange}sentence generator}}$ is then used to predict textual descriptions for each ROI independently.
+
+## Setup (Environment and Datasets)
 The setup includes preparation of the environment (conda/paths) and dataset downloads
 
 ## Environment Setup
@@ -81,3 +116,53 @@ Note that `optimize_inference` is only required for the first evaluation and aut
 `bootstrap` enables bootstrapping for metrics computation, you can also disable it to speed up evaluation.
 `eval_mode` can also be set to `val` if you want to run evaluation on the validaiton set (e.g. for hyperparameter tuning).
 `model_name` can be replaced by the name of the model you want to evaluate.
+
+## Results
+<p align="center">
+<img src="figs/chex_results.png" width=50% height=50%
+class="center">
+</p>
+<p align="center">
+<img src="figs/chex_results_qualitative.png" width=90% height=90%
+class="center">
+</p>
+
+## Source-Code Structure
+### ChEX Model and Training/Evaluation Code
+- ChEX main model: ``src/model/chex.py``
+- ChEX encoder/decoder/detector components: ``src/model/img_encoder``, ``src/model/txt_encoder``, ``src/model/txt_decoder``, ``src/model/detector``
+- ChEX training code: ``src/model/supervisors``
+- ChEX evaluation code: ``src/model/eval``
+
+### Configs
+- ChEX model configs: ``conf/model/chex_stage1.yaml``, ``conf/model/chex_stage2.yaml``, amd ``conf/model/chex_stage3.yaml``
+- ChEX training configs: ``conf/experiment/chex_stage1_train.yaml``, ``conf/experiment/chex_stage2_train.yaml``, ``conf/experiment/chex_stage3_train.yaml``, and ``conf/experiment/pretrain_txtgen.yaml``
+- ChEX evaluation task configs: ``conf/task/``
+- Prompts used for training and inference: ``conf/prompts/``
+- Dataset configs (loading options, class-names, ...): ``conf/dataset/``
+
+### Other Directories and Files:
+- ``src/chexzero``: Third-party code for the image and text encoders (ChEX uses CheXZero as the image and text encoder)
+- ``src/dataset``: Data-preprocessing and -loading for training and evaluation
+- ``src/metrics``: Evaluation metrics for all tasks
+- ``src/utils``: Additional utilities
+- ``train.py``: Training script (which calls individual supervisors based on the config, see ``conf/experiment/chex_stage*_train.yaml``)
+- ``evaluate.py``: Evaluation script (which calls individual evaluators based on the config, see ``conf/task``)
+- ``settings.py``: Definitions of paths/environment variables
+
+## Model Checkpoints
+coming soon
+
+## Citation
+```
+@article{mueller2024chex,
+  title={ChEX: Interactive Localization and Region Description in Chest X-rays},
+  author={Müller, Philip and Kaissis, Georgios and Rueckert, Daniel},
+  journal={arXiv preprint arXiv:2404.15770},
+  doi={10.48550/arXiv.2404.15770},
+  year={2024}
+}
+```
+
+## Notice
+This project includes third-party software components that are subject to their respective licenses, as described in the [NOTICE](./NOTICE.txt) file, which provides information about the third-party components used, including their names, licenses, and copyright holders. Please review the NOTICE file before using or distributing this software.

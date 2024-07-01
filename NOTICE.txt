@@ -1,0 +1,20 @@
+NOTICE
+
+This project includes third-party software components, as noted below. This software is subject to their respective licenses, as described below.
+
+----------------------------------
+Component: CheXzero (src/chexzero)
+License: MIT License
+Copyright (c) 2022 Rajpurkar Lab
+https://github.com/rajpurkarlab/CheXzero
+
+The code from CheXzero (src/chexzero) is derived from OpenAI CLIP 
+License: MIT License
+Copyright (c) 2021 OpenAI
+https://github.com/openai/CLIP
+
+----------------------------------
+Component: CheXbert (src/metrics/chexbert)
+License: STANFORD ACADEMIC SOFTWARE LICENSE AGREEMENT FOR Stanford Docket S20-295: Combining Automatic Labelers and Expert Annotations for Accurate Radiology Report Labeling using BERT
+Copyright (c) 2020 THE BOARD OF TRUSTEES OF THE LELAND STANFORD JUNIOR UNIVERSITY
+https://github.com/stanfordmlgroup/CheXbert/blob/master/LICENSE.pdf
