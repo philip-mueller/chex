@@ -173,7 +173,7 @@ After extraction a folder ``chex_stage3`` should be present in the model directo
 ```
 @article{mueller2024chex,
   title={ChEX: Interactive Localization and Region Description in Chest X-rays},
-  author={Müller, Philip and Kaissis, Georgios and Rueckert, Daniel},
+  author={M{\"u}ller, Philip and Kaissis, Georgios and Rueckert, Daniel},
   journal={arXiv preprint arXiv:2404.15770},
   doi={10.48550/arXiv.2404.15770},
   year={2024}
