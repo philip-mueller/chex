@@ -40,7 +40,7 @@ class ChexzeroImageEncoder(BaseModel):
         self.config: ChexzeroImageEncoderConfig
 
         model, _ = chexzero.clip.load("ViT-B/32", device='cpu', jit=False) 
-        model.load_state_dict(torch.load(self.config.model_path, map_location='cpu'))
+        model.load_state_dict(torch.load(os.path.expanduser(self.config.model_path), map_location='cpu'))
         self.d = main_config.d_model
 
         self.backbone: VisualTransformer = model.visual

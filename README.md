@@ -45,13 +45,25 @@ For setup of the python environment and specification of paths, execute the foll
 
 1. Run the following commands from the root dir of this project:
 
-    conda env create -f environment.yml 
-    conda activate chex
-    pip install -e .
+        conda env create -f environment.yaml 
+        conda activate chex
+        pip install -e .
 
 2. Setup W&B by setting the environment variables `WANDB_PROJECT` (the project name here, defaulting to "chex") and `WANDB_ENTITY` (your W&B username)
+
+        conda env config vars set WANDB_PROJECT=chex
+        conda env config vars set WANDB_ENTITY=<your wandb username>
+        conda deactivate
+        conda activate chex
+
 3. Specify a model logging directory by setting the environment variable `MODELS_DIR`. By default ``~/models/chex`` will be used. This folder will be used to store all model weights and logging (in sub folders for each model / training run)
+
 4. Download the CheXzero model weights from https://drive.google.com/drive/folders/1makFLiEMbSleYltaRxw81aBhEDMpVwno and store them in the directory ``~/models/third_party/chexzero/CheXzero_Models/best_64_5e-05_original_22000_0.864.pt``. Make sure you have downloaded the weights file ``best_64_5e-05_original_22000_0.864.pt``, other files are not required.
+
+5. (Optional) Download the trained ChEX model weights from https://drive.google.com/file/d/1TFBOSV_jEdh2E6mBlv1qDlxJl9Wf9xZO/view?usp=sharing and unzip them in the model directory (as defined in ``MODELS_DIR``, e.g. ``~/models/chex/``). 
+Make sure you have the folder ``chex_stage3`` extracted directly in the model directory (e.g. ``~/models/chex/chex_stage3``). 
+This is not required for training, but can be used to evaluate the model directly. 
+
 
 ### Automatic Dataset Download
 Manual downloads of datasets are not required, but automatic downloads require a Physionet user with credentialed access to the relevant datasets (dataset links will be prompted when starting training for the first time) and a Kaggle account. If you have already downloaded the relevant datasets, you can skip the following steps and follow the instructions of ``Using Pre-Downloaded Datasets``
@@ -64,7 +76,6 @@ For automatic downloads follow these steps:
 3. Specify a dataset directory where datasets will be downloaded and stored by defining the environment variable ``DATA_DIR``. By default ``~/datasets`` will be used.
 
 4. Dataset download and pre-processing should happen automatically when starting training/evaluation. Alternatively, this can be invoked by running the dataset scripts ``src/dataset/mimic_cxr_datasets.py``, ``src/dataset/vindr_cxr.py``, or ``src/dataset/nih_cxr.py``. For MIMIC-CXR, calling ``src/dataset/mimic_cxr_datasets.py`` expects the name of the dataset as defined in the dataset configs in ``conf/dataset``
-
 
 
 ### Using Pre-Downloaded Datasets
@@ -151,7 +162,12 @@ class="center">
 - ``settings.py``: Definitions of paths/environment variables
 
 ## Model Checkpoints
-coming soon
+The model checkpoint for the ChEX model (stage 3) can be found at 
+
+    https://drive.google.com/file/d/1TFBOSV_jEdh2E6mBlv1qDlxJl9Wf9xZO/view?usp=sharing
+
+To use the model, download the zip file and extract it into the model directory (as defined in ``MODELS_DIR``, e.g. ``~/models/chex/``).
+After extraction a folder ``chex_stage3`` should be present in the model directory (e.g. ``~/models/chex/chex_stage3``) and the model can be used for evaluation (as described in the evaluation section).
 
 ## Citation
 ```

@@ -8,14 +8,14 @@ channels:
 
 dependencies:
   - python=3.10
-  - pip
+  - pip<=24.2
   - pylint
   - IPython
   - ipykernel
   - jupyter
 
-  - numpy
-  - pytorch=2.0
+  - numpy<=1.26
+  - pytorch=2.0.1
   - torchvision=0.15
   - torchmetrics=0.11
   - pytorch-cuda=11.7
@@ -26,6 +26,7 @@ dependencies:
   - tqdm
   - kaggle
   - wandb
+  - mkl=2024.0
 
   - pip:
     - transformers==4.37

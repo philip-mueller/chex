@@ -26,7 +26,7 @@ class SentenceTokenConfig:
     use_global_contr: bool = False
     coeff_global_contr: float = 0.0
     global_contr_temp: float = 0.2
-
+ 
     # --- Loss: Sentence-level contrastive (sent-contr) ---
     use_sent_contr: bool = False
     coeff_sent_contr: float = 0.0
