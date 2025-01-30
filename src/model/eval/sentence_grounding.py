@@ -176,8 +176,6 @@ class SentenceGroundingEvaluator(Evaluator):
                 best_config_overwrites = {
                     **best_config_overwrites,
                     'nms_threshold': best_config.nms_threshold,
-                    'wbf_threshold': best_config.wbf_threshold,
-                    'multi_region_postprocess': best_config.multi_region_postprocess,
                 }
 
         log.info(f'Best config: {best_config_overwrites}')     
